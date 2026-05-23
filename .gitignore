@@ -1,0 +1,35 @@
+# macOS / editor
+.DS_Store
+.vscode/
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# LaTeX build files
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+texput.log
+
+# Local thesis compile-check files
+deliverables/*compile_check*
+deliverables/*revert_check*
+
+# Large/local raw data, if you do not want to publish them
+Daily prices jan 2000 - dec 2025 zip limited (preferred).csv
+monthly_prices_jan 2005 - dec 2025 (sweden filter.csv
+quarterly_fundamentals_sweden jan 2000 - dec 2025.csv
+Economic and consumer sentiment.xlsx
+3-month_interbank_rate_sweden.csv
+10-year_bond_yield_sweden.csv
+ipo_dates_and_offering_price_sweden.csv
+Macrocontrols/
