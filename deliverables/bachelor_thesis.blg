@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99e (TeX Live 2026)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: bachelor_thesis.aux
+The style file: apalike.bst
+Database file #1: behavioral_finance_exam.bib
+You've used 45 entries,
+            1935 wiz_defined-function locations,
+            720 strings with 10094 characters,
+and the built_in function-call counts, 16502 in all, are:
+= -- 1703
+> -- 560
+< -- 35
++ -- 200
+- -- 176
+* -- 1405
+:= -- 2914
+add.period$ -- 145
+call.type$ -- 45
+change.case$ -- 315
+chr.to.int$ -- 45
+cite$ -- 45
+duplicate$ -- 580
+empty$ -- 1153
+format.name$ -- 259
+if$ -- 3155
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 32
+newline$ -- 238
+num.names$ -- 135
+pop$ -- 185
+preamble$ -- 1
+purify$ -- 313
+quote$ -- 0
+skip$ -- 459
+stack$ -- 0
+substring$ -- 1351
+swap$ -- 33
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 270
+warning$ -- 0
+while$ -- 152
+width$ -- 0
+write$ -- 596

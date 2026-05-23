@@ -1,0 +1,392 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{url}
+\usepackage{hyperref}
+
+\title{Construction of the Swedish Investor Sentiment Index}
+\author{Bachelor thesis methodology note}
+\date{Current implementation based on the Sweden master notebook outputs}
+
+\begin{document}
+\maketitle
+
+\section{Purpose and Scope}
+
+This document describes the construction of the Swedish investor sentiment index used in the thesis. The structure follows the methodological sequence in Zhang and Zhang's Swedish sentiment-index thesis from Section 3, ``Data'', through Section 4.3, ``Construction of a sentiment index considering macroeconomic effects'', but it records the implementation used in this repository rather than copying the original sample or coefficients.
+
+The closest local analogue to the paper's preliminary index, \(\mathrm{ESent}\), is \texttt{ESENT\_REEST}. In the current output this is also exposed as \texttt{SENT}. The closest local analogue to the paper's final macro-adjusted index, \(\mathrm{RSent}\), is \texttt{RSENT\_REEST}. In the current output this is also exposed as \texttt{SENT\_ORTH}. Unless stated otherwise, the estimates in this note refer to the re-estimated Swedish fixed-PCA index over the repository's longer sample from February 2001 to December 2025.
+
+The current implementation is not an exact replication with only a different time period. It uses the same proxy family and the same broad PCA logic, but the lead-lag choices, PCA weights, IPO-return handling, and sample period are re-estimated or adapted to the available data.
+
+\section{Data}
+
+\subsection{Sample and Data Sources}
+
+The sentiment index is constructed at monthly frequency for Sweden. The implemented analysis window is February 2001 through December 2025. The start date is determined by the availability of the equity-to-debt proxy, while turnover history is available from January 2000 and enters the standard turnover proxy.
+
+The six sentiment proxies are:
+\[
+ESI_t,\quad CCI_t,\quad TURN_t,\quad NIPO_t,\quad RIPO_t,\quad ED\_RATIO_t.
+\]
+They are designed to combine direct survey-based sentiment measures with market-based and issuance-based variables. The macro-adjusted index additionally uses:
+\[
+CPI_t,\quad PPI_t,\quad IP_t,\quad EM_t.
+\]
+
+\begin{table}[htbp]
+\centering
+\caption{Sentiment Proxies and Implemented Transformations}
+\label{tab:sentiment_proxy_definitions}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llll}
+\toprule
+Proxy & Interpretation & Implemented construction & Main source \\
+\midrule
+\(ESI_t\) & Economic sentiment & Monthly growth rate of the economic sentiment index & Economic and consumer sentiment workbook \\
+\(CCI_t\) & Consumer confidence & Monthly growth rate of the consumer confidence index & Economic and consumer sentiment workbook \\
+\(TURN_t\) & Market activity and liquidity & Log of aggregate monthly trading volume divided by aggregate shares outstanding & Daily Swedish price file \\
+\(NIPO_t\) & IPO market volume & Count of IPOs by IPO month, from Bloomberg IPO file & IPO offers CSV \\
+\(RIPO_t\) & IPO first-day return & Monthly average IPO return using the repository RIPO rule & IPO offers CSV and daily prices \\
+\(ED\_RATIO_t\) & Equity-to-debt proxy & Inverse of the OMX30 debt-to-equity series & Economic and consumer sentiment workbook \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsection{Proxy Transformations}
+
+The economic and consumer confidence variables are transformed into monthly growth rates:
+\[
+g_{x,t} = \frac{x_t}{x_{t-1}} - 1.
+\]
+Turnover is measured as the logarithm of aggregate market turnover:
+\[
+TURN_t = \log\left(\frac{\sum_i Volume_{i,t}}{\sum_i SharesOutstanding_{i,t}}\right).
+\]
+The IPO count proxy is the number of Bloomberg IPO rows assigned to each IPO month. Months without IPOs are assigned \(NIPO_t=0\). The IPO return proxy is not set to zero in months without observed IPO returns. Instead, raw \(RIPO_t\) is missing in no-IPO months and a separate observation flag is retained. During PCA estimation, missing standardized RIPO values are filled with zero after standardization. This is equivalent to neutral mean imputation inside the standardized PCA matrix, while preserving the raw missingness of the economic series.
+
+The implemented RIPO return is a hybrid source. If a daily close is available within three days after the IPO date, the return is computed as:
+\[
+RIPO_i = \frac{P^{close}_{i,first}}{P^{offer}_i} - 1.
+\]
+If the first available daily close is more delayed, or if the daily match is unavailable, the Bloomberg first-open return field is used. This adaptation is used because some next-available daily matches occur long after the IPO date and should not be treated as first-day returns.
+
+The equity-to-debt proxy is calculated as the inverse of the available debt-to-equity series:
+\[
+ED\_RATIO_t = \frac{1}{D/E_t}.
+\]
+If the imported source is stored in percentage units, the implementation accounts for this before inversion.
+
+\begin{table}[htbp]
+\centering
+\caption{Descriptive Statistics for Implemented Sentiment Proxies}
+\label{tab:sentiment_proxy_descriptive_statistics}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrrrr}
+\toprule
+Proxy & Obs. & Mean & Std. dev. & Min. & Median & Max. & Missing share \\
+\midrule
+\(CCI\) & 299 & 0.0008 & 0.0273 & -0.0653 & -0.0019 & 0.1290 & 0.0417 \\
+\(ED\_RATIO\) & 299 & 0.2929 & 0.0791 & 0.2114 & 0.2558 & 0.5483 & 0.0417 \\
+\(ESI\) & 299 & 0.0007 & 0.0397 & -0.1412 & -0.0011 & 0.4921 & 0.0417 \\
+\(NIPO\) & 299 & 1.4181 & 2.6715 & 0.0000 & 0.0000 & 21.0000 & 0.0417 \\
+\(RIPO\) & 130 & 0.1503 & 0.5412 & -0.6511 & 0.0622 & 4.6848 & 0.5833 \\
+\(RIPO\) observed flag & 299 & 0.4348 & 0.4966 & 0.0000 & 0.0000 & 1.0000 & 0.0417 \\
+\(TURN\) & 312 & -3.1190 & 0.3939 & -4.0663 & -3.1466 & -1.9195 & 0.0000 \\
+\bottomrule
+\end{tabular}
+}
+\begin{minipage}{0.95\textwidth}
+\footnotesize
+Notes: The table is based on \path{outputs/sweden_master_notebook/sentiment_proxy_numeric_summary.csv}. The missing share is calculated over the current master-notebook sentiment calendar. The RIPO observed flag is not a sentiment proxy in the main PCA; it is retained for auditability.
+\end{minipage}
+\end{table}
+
+\section{Lead-Lag Screening and First PCA}
+
+\subsection{Current and Lagged Proxy Matrix}
+
+For each of the six proxies, the implementation constructs a contemporaneous and one-month lagged version:
+\begin{align*}
+\mathcal{X}^{(12)}_t = \{&
+ESI_t, ESI_{t-1}, CCI_t, CCI_{t-1}, TURN_t, TURN_{t-1},\\
+&NIPO_t, NIPO_{t-1}, RIPO_t, RIPO_{t-1}, ED\_RATIO_t, ED\_RATIO_{t-1}\}.
+\end{align*}
+These twelve variables form the first PCA input matrix. Each column is standardized before PCA:
+\[
+z_{j,t} = \frac{x_{j,t}-\bar{x}_j}{s_j}.
+\]
+This z-score standardization is used for PCA inputs, while min-max normalization is reserved for the macro controls in the residualization stage. This distinction matters: the paper explicitly min-max normalizes macro controls and market-index levels, but the PCA itself is naturally implemented on standardized variables because the proxies are measured in different units.
+
+\subsection{PCA Component Retention Rule}
+
+Let \(\lambda_1,\ldots,\lambda_M\) denote the PCA eigenvalues and let \(v_{jk}\) denote the loading of variable \(j\) on component \(k\). The implementation retains the smallest number of components \(K\) such that:
+\[
+\sum_{k=1}^{K}\frac{\lambda_k}{\sum_{m=1}^{M}\lambda_m} \geq 0.85.
+\]
+The retained score coefficient for variable \(j\) is computed as:
+\[
+b_j = \sum_{k=1}^{K} v_{jk}\frac{\lambda_k}{\sum_{m=1}^{M}\lambda_m}.
+\]
+The denominator is the total variance across all components. This preserves the relative eigenvalue weighting of the retained components and leaves the overall scale of the index arbitrary, as is standard for PCA-based indices. The sign of each retained component is oriented so that the sum of its loadings is positive, but individual proxy coefficients are not forced to be positive after estimation.
+
+\begin{table}[htbp]
+\centering
+\caption{First PCA on Current and Lagged Sentiment Proxies}
+\label{tab:stage1_pca}
+\begin{tabular}{lrrrr}
+\toprule
+Component & Eigenvalue & Proportion & Cumulative & Retained \\
+\midrule
+Comp1 & 2.6947 & 0.2462 & 0.2462 & Yes \\
+Comp2 & 1.8304 & 0.1673 & 0.4135 & Yes \\
+Comp3 & 1.5158 & 0.1385 & 0.5520 & Yes \\
+Comp4 & 1.3120 & 0.1199 & 0.6719 & Yes \\
+Comp5 & 1.2446 & 0.1137 & 0.7856 & Yes \\
+Comp6 & 0.5151 & 0.0471 & 0.8327 & Yes \\
+Comp7 & 0.4698 & 0.0429 & 0.8756 & Yes \\
+Comp8 & 0.4228 & 0.0386 & 0.9143 & No \\
+Comp9 & 0.3970 & 0.0363 & 0.9506 & No \\
+Comp10 & 0.3436 & 0.0314 & 0.9820 & No \\
+Comp11 & 0.1814 & 0.0166 & 0.9985 & No \\
+Comp12 & 0.0161 & 0.0015 & 1.0000 & No \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.95\textwidth}
+\footnotesize
+Notes: The retained components are the first seven components, which jointly explain 87.56 percent of the standardized current-lagged proxy variation. Source: \path{sentiment_diagnostic_stage1_eigenvalues.csv}.
+\end{minipage}
+\end{table}
+
+\subsection{Lead-Lag Selection}
+
+The first-stage PCA index is used as the reference series for selecting whether the contemporaneous or lagged version of each base proxy enters the final fixed-PCA construction. For each proxy pair, the implementation computes the correlation between the first-stage index and the current proxy, and separately between the first-stage index and the lagged proxy. The version with the higher correlation is selected.
+
+\begin{table}[htbp]
+\centering
+\caption{Lead-Lag Selection for the Re-estimated Swedish Sentiment Index}
+\label{tab:lead_lag_selection}
+\begin{tabular}{lrrl}
+\toprule
+Base proxy & Corr. current & Corr. lagged & Selected variable \\
+\midrule
+\(ESI\) & 0.4241 & 0.4633 & \(ESI_{t-1}\) \\
+\(CCI\) & 0.5044 & 0.5136 & \(CCI_{t-1}\) \\
+\(TURN\) & -0.2689 & -0.2145 & \(TURN_{t-1}\) \\
+\(NIPO\) & 0.4736 & 0.4641 & \(NIPO_t\) \\
+\(RIPO\) & -0.0142 & -0.1031 & \(RIPO_t\) \\
+\(ED\_RATIO\) & 0.6029 & 0.6119 & \(ED\_RATIO_{t-1}\) \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.95\textwidth}
+\footnotesize
+Notes: The selected timing differs from Zhang and Zhang's 2014--2022 sample because the present index is re-estimated over the longer 2001--2025 sample and uses the repository's implemented RIPO treatment. Source: \path{sentiment_diagnostic_lead_lag_selection.csv}.
+\end{minipage}
+\end{table}
+
+\section{Construction of the Preliminary Sentiment Index}
+
+\subsection{Second PCA on Selected Proxies}
+
+The selected six variables are:
+\[
+ESI_{t-1},\quad CCI_{t-1},\quad TURN_{t-1},\quad NIPO_t,\quad RIPO_t,\quad ED\_RATIO_{t-1}.
+\]
+They are standardized and entered into a second PCA. The same 85 percent cumulative-variance rule is applied.
+
+\begin{table}[htbp]
+\centering
+\caption{Second PCA for the Preliminary Sentiment Index}
+\label{tab:stage2_pca}
+\begin{tabular}{lrrrr}
+\toprule
+Component & Eigenvalue & Proportion & Cumulative & Retained \\
+\midrule
+Comp1 & 1.5754 & 0.2880 & 0.2880 & Yes \\
+Comp2 & 1.3368 & 0.2444 & 0.5325 & Yes \\
+Comp3 & 0.8788 & 0.1607 & 0.6931 & Yes \\
+Comp4 & 0.7877 & 0.1440 & 0.8372 & Yes \\
+Comp5 & 0.4860 & 0.0889 & 0.9260 & Yes \\
+Comp6 & 0.4047 & 0.0740 & 1.0000 & No \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.95\textwidth}
+\footnotesize
+Notes: Five components are retained, explaining 92.60 percent of the standardized selected-proxy variation. Source: \path{sentiment_diagnostic_stage2_eigenvalues.csv}.
+\end{minipage}
+\end{table}
+
+\subsection{Score Coefficients and ESent}
+
+Let \(\tilde{x}_{j,t}\) denote the standardized value of selected proxy \(j\). The preliminary sentiment index is:
+\[
+ESent_t = \sum_{j=1}^{6} b_j \tilde{x}_{j,t}.
+\]
+Using the current re-estimated coefficients:
+\begin{align*}
+ESent_t ={}& 0.3081\widetilde{ESI}_{t-1}
+ + 0.2107\widetilde{CCI}_{t-1}
+ + 0.2070\widetilde{TURN}_{t-1} \\
+& + 0.0758\widetilde{NIPO}_{t}
+ + 0.0770\widetilde{RIPO}_{t}
+ - 0.0575\widetilde{ED\_RATIO}_{t-1}.
+\end{align*}
+The coefficient on the lagged equity-to-debt proxy is negative in this re-estimation. It is not manually overwritten because the implemented index is intended to reflect the empirical covariance structure in the longer sample.
+
+\begin{table}[htbp]
+\centering
+\caption{Weighted Score Coefficients for the Preliminary Index}
+\label{tab:esent_coefficients}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrr}
+\toprule
+Variable & Comp1 & Comp2 & Comp3 & Comp4 & Comp5 & Sum \\
+\midrule
+\(ESI_{t-1}\) & 0.1870 & 0.0710 & -0.0075 & 0.0095 & 0.0480 & 0.3081 \\
+\(CCI_{t-1}\) & 0.1932 & 0.0505 & 0.0174 & 0.0001 & -0.0506 & 0.2107 \\
+\(TURN_{t-1}\) & -0.0751 & 0.1352 & 0.0475 & 0.1052 & -0.0058 & 0.2070 \\
+\(NIPO_t\) & 0.0426 & -0.1245 & 0.1337 & 0.0155 & 0.0084 & 0.0758 \\
+\(RIPO_t\) & 0.0025 & 0.0116 & 0.0038 & 0.0051 & 0.0540 & 0.0770 \\
+\(ED\_RATIO_{t-1}\) & 0.0564 & -0.1350 & -0.0728 & 0.0965 & -0.0026 & -0.0575 \\
+\bottomrule
+\end{tabular}
+}
+\begin{minipage}{0.95\textwidth}
+\footnotesize
+Notes: The column entries are component loadings multiplied by their full-sample explained-variance shares. The final column is the implemented coefficient in \texttt{ESENT\_REEST}. Source: \path{sentiment_diagnostic_stage2_weighted_coefficients.csv}.
+\end{minipage}
+\end{table}
+
+\section{Construction of the Macro-adjusted Sentiment Index}
+
+\subsection{Macroeconomic Controls}
+
+The purpose of the macro-adjusted index is to remove variation in the sentiment proxies that is mechanically associated with broad macroeconomic conditions. Four macro controls are used:
+\[
+CPI_t,\quad PPI_t,\quad IP_t,\quad EM_t.
+\]
+The implementation follows the Swedish sentiment paper's normalization logic for the macro variables. Each macro control is transformed by min-max normalization:
+\[
+m^{*}_{k,t} = \frac{m_{k,t} - \min(m_k)}{\max(m_k)-\min(m_k)}.
+\]
+This transformation is applied to the macro controls before residualization.
+
+\subsection{Proxy Residualization}
+
+Each selected sentiment proxy is regressed on the normalized macro controls:
+\[
+x_{j,t} = \alpha_j + \gamma_{j,1}CPI^{*}_t + \gamma_{j,2}PPI^{*}_t
+ + \gamma_{j,3}IP^{*}_t + \gamma_{j,4}EM^{*}_t + \varepsilon_{j,t}.
+\]
+The residual \(\varepsilon_{j,t}\) is interpreted as the part of proxy \(j\) not explained by the included macro conditions. The six residual series are:
+\[
+rESI_{t-1},\quad rCCI_{t-1},\quad rTURN_{t-1},\quad rNIPO_t,\quad rRIPO_t,\quad rED\_RATIO_{t-1}.
+\]
+
+\subsection{Third PCA on Residual Proxies}
+
+The residual proxies are standardized and entered into a third PCA. The same cumulative 85 percent rule is applied.
+
+\begin{table}[htbp]
+\centering
+\caption{PCA for the Macro-adjusted Sentiment Index}
+\label{tab:stage3_pca}
+\begin{tabular}{lrrrr}
+\toprule
+Component & Eigenvalue & Proportion & Cumulative & Retained \\
+\midrule
+Comp1 & 1.5622 & 0.2862 & 0.2862 & Yes \\
+Comp2 & 1.3815 & 0.2531 & 0.5393 & Yes \\
+Comp3 & 1.0132 & 0.1856 & 0.7249 & Yes \\
+Comp4 & 0.6137 & 0.1124 & 0.8373 & Yes \\
+Comp5 & 0.4646 & 0.0851 & 0.9225 & Yes \\
+Comp6 & 0.4233 & 0.0775 & 1.0000 & No \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.95\textwidth}
+\footnotesize
+Notes: Five components are retained, explaining 92.25 percent of the residual-proxy variation. Source: \path{sentiment_diagnostic_stage3_eigenvalues.csv}.
+\end{minipage}
+\end{table}
+
+\subsection{Score Coefficients and RSent}
+
+Let \(\widetilde{r x}_{j,t}\) denote the standardized residual proxy. The macro-adjusted index is:
+\[
+RSent_t = \sum_{j=1}^{6} c_j \widetilde{r x}_{j,t}.
+\]
+The implemented re-estimated equation is:
+\begin{align*}
+RSent_t ={}& 0.3260\widetilde{rESI}_{t-1}
+ + 0.2072\widetilde{rCCI}_{t-1}
+ + 0.1249\widetilde{rTURN}_{t-1} \\
+& + 0.1583\widetilde{rNIPO}_{t}
+ + 0.0696\widetilde{rRIPO}_{t}
+ + 0.0747\widetilde{rED\_RATIO}_{t-1}.
+\end{align*}
+This is the repository's closest counterpart to the paper's final \(\mathrm{RSent}\) measure. In the current code it is stored as both \texttt{RSENT\_REEST} and \texttt{SENT\_ORTH}.
+
+\begin{table}[htbp]
+\centering
+\caption{Weighted Score Coefficients for the Macro-adjusted Index}
+\label{tab:rsent_coefficients}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrr}
+\toprule
+Variable & Comp1 & Comp2 & Comp3 & Comp4 & Comp5 & Sum \\
+\midrule
+\(rESI_{t-1}\) & 0.1816 & 0.0805 & -0.0094 & 0.0261 & 0.0471 & 0.3260 \\
+\(rCCI_{t-1}\) & 0.1873 & 0.0625 & 0.0280 & -0.0192 & -0.0513 & 0.2072 \\
+\(rTURN_{t-1}\) & -0.0903 & 0.1600 & 0.0011 & 0.0746 & -0.0204 & 0.1249 \\
+\(rNIPO_t\) & 0.0014 & -0.0508 & 0.1765 & 0.0244 & 0.0067 & 0.1583 \\
+\(rRIPO_t\) & 0.0081 & 0.0148 & -0.0006 & 0.0061 & 0.0412 & 0.0696 \\
+\(rED\_RATIO_{t-1}\) & -0.0750 & 0.1589 & 0.0492 & -0.0735 & 0.0151 & 0.0747 \\
+\bottomrule
+\end{tabular}
+}
+\begin{minipage}{0.95\textwidth}
+\footnotesize
+Notes: The final column is the implemented coefficient in \texttt{RSENT\_REEST}. Source: \path{sentiment_diagnostic_stage3_weighted_coefficients.csv}.
+\end{minipage}
+\end{table}
+
+\section{Output Series and Interpretation}
+
+\begin{table}[htbp]
+\centering
+\caption{Descriptive Statistics for Sentiment Index Outputs}
+\label{tab:sentiment_index_descriptive_statistics}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrrr}
+\toprule
+Index & Obs. & Mean & Std. dev. & Min. & Median & Max. & Missing share \\
+\midrule
+\texttt{SENT} & 298 & -0.0016 & 0.5034 & -1.4536 & -0.0208 & 5.0037 & 0.0033 \\
+\texttt{SENT\_ORTH} & 298 & 0.0002 & 0.5123 & -1.2052 & -0.0314 & 5.5653 & 0.0033 \\
+\texttt{ESENT\_REEST} & 298 & -0.0016 & 0.5034 & -1.4536 & -0.0208 & 5.0037 & 0.0033 \\
+\texttt{ESENT\_PUBLISHED} & 129 & -0.4309 & 0.5310 & -1.1340 & -0.5412 & 2.1092 & 0.5686 \\
+\texttt{RSENT\_REEST} & 298 & 0.0002 & 0.5123 & -1.2052 & -0.0314 & 5.5653 & 0.0033 \\
+\bottomrule
+\end{tabular}
+}
+\begin{minipage}{0.95\textwidth}
+\footnotesize
+Notes: \texttt{SENT} equals \texttt{ESENT\_REEST}. \texttt{SENT\_ORTH} equals \texttt{RSENT\_REEST}. The published-weight series has fewer observations because it requires the exact timing and availability implied by the published specification. Source: \path{sentiment_index_numeric_summary.csv}.
+\end{minipage}
+\end{table}
+
+For thesis interpretation, \texttt{SENT} should be described as the re-estimated preliminary Swedish sentiment index, while \texttt{SENT\_ORTH} should be described as the macro-adjusted Swedish sentiment index. If the thesis compares directly with Zhang and Zhang's final \(\mathrm{RSent}\), \texttt{SENT\_ORTH} or \texttt{RSENT\_REEST} is the appropriate series.
+
+\section{Comparison with the Swedish Reference Method}
+
+The implemented index follows the Swedish reference method in four central respects. First, it uses the same six proxy families. Second, it creates current and one-month lagged versions of each proxy. Third, it uses PCA with an 85 percent cumulative-variance retention rule rather than only the first principal component. Fourth, it residualizes the selected proxies against min-max normalized macro controls before constructing the final macro-adjusted index.
+
+There are also important implementation differences. The sample is extended from the paper's 2014--2022 period to the repository's 2001--2025 analysis period. The lead-lag selection is re-estimated and therefore differs from the published selection. The repository's IPO-return proxy uses a documented hybrid rule to avoid treating stale next-available daily prices as first-day returns. Finally, the repository distinguishes the preliminary index \texttt{SENT} from the macro-adjusted index \texttt{SENT\_ORTH}; the latter is the closer analogue to the paper's final \(\mathrm{RSent}\).
+
+\end{document}

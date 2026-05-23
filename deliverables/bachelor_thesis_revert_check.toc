@@ -1,0 +1,80 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{Abstract}{1}{Doc-Start}%
+\contentsline {section}{\numberline {1}Introduction, Motivation and Purpose}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Research Question}{1}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}Hypothesis}{1}{subsubsection.1.1.1}%
+\contentsline {section}{\numberline {2}Background}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}OMXS30 Performance and Market Concentration}{2}{subsection.2.1}%
+\contentsline {section}{\numberline {3}Literature Overview}{5}{section.3}%
+\contentsline {section}{\numberline {4}Method}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Empirical Scope and Unit of Observation}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Data Sources}{9}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Sample Construction and Security Universe}{9}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Market Data Construction}{9}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Accounting Data and Point-in-Time Fundamentals}{9}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Firm Characteristics}{10}{subsection.4.6}%
+\contentsline {subsubsection}{\numberline {4.6.1}Market Equity}{10}{subsubsection.4.6.1}%
+\contentsline {subsubsection}{\numberline {4.6.2}Age}{10}{subsubsection.4.6.2}%
+\contentsline {subsubsection}{\numberline {4.6.3}Total Risk}{11}{subsubsection.4.6.3}%
+\contentsline {subsubsection}{\numberline {4.6.4}Book-to-Market}{11}{subsubsection.4.6.4}%
+\contentsline {subsubsection}{\numberline {4.6.5}Profitability and Unprofitable Firms}{11}{subsubsection.4.6.5}%
+\contentsline {subsubsection}{\numberline {4.6.6}Dividend-Payer Status}{11}{subsubsection.4.6.6}%
+\contentsline {subsubsection}{\numberline {4.6.7}Asset Tangibility}{11}{subsubsection.4.6.7}%
+\contentsline {subsubsection}{\numberline {4.6.8}Sales Growth}{11}{subsubsection.4.6.8}%
+\contentsline {subsubsection}{\numberline {4.6.9}Illiquidity}{12}{subsubsection.4.6.9}%
+\contentsline {subsubsection}{\numberline {4.6.10}Share Turnover}{12}{subsubsection.4.6.10}%
+\contentsline {subsubsection}{\numberline {4.6.11}Idiosyncratic Volatility}{12}{subsubsection.4.6.11}%
+\contentsline {subsection}{\numberline {4.7}Winsorization, Decile Assignment, and Portfolio Sorting Variables}{13}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}Composite Sentiment Index}{14}{subsection.4.8}%
+\contentsline {subsubsection}{\numberline {4.8.1}Survey Confidence}{14}{subsubsection.4.8.1}%
+\contentsline {subsubsection}{\numberline {4.8.2}Trading Activity and Financing Composition}{14}{subsubsection.4.8.2}%
+\contentsline {subsubsection}{\numberline {4.8.3}IPO Market Conditions}{15}{subsubsection.4.8.3}%
+\contentsline {subsubsection}{\numberline {4.8.4}Dividend Premium}{15}{subsubsection.4.8.4}%
+\contentsline {subsubsection}{\numberline {4.8.5}PCA Construction Trace}{15}{subsubsection.4.8.5}%
+\contentsline {subsection}{\numberline {4.9}Macro-Adjusted Sentiment}{18}{subsection.4.9}%
+\contentsline {subsection}{\numberline {4.10}Risk-Free Rate and Factor Controls}{18}{subsection.4.10}%
+\contentsline {subsubsection}{\numberline {4.10.1}Theoretical Role of Factor Controls}{18}{subsubsection.4.10.1}%
+\contentsline {subsubsection}{\numberline {4.10.2}Swedish Construction From Available Data}{19}{subsubsection.4.10.2}%
+\contentsline {subsubsection}{\numberline {4.10.3}Market Excess Return}{19}{subsubsection.4.10.3}%
+\contentsline {subsubsection}{\numberline {4.10.4}Size Factor}{19}{subsubsection.4.10.4}%
+\contentsline {subsubsection}{\numberline {4.10.5}Value Factor}{20}{subsubsection.4.10.5}%
+\contentsline {subsubsection}{\numberline {4.10.6}Momentum Factor}{20}{subsubsection.4.10.6}%
+\contentsline {subsubsection}{\numberline {4.10.7}Regression Use}{20}{subsubsection.4.10.7}%
+\contentsline {subsection}{\numberline {4.11}Idiosyncratic Volatility Extension}{20}{subsection.4.11}%
+\contentsline {subsection}{\numberline {4.12}Portfolio Test Design}{21}{subsection.4.12}%
+\contentsline {subsection}{\numberline {4.13}Regression Design}{22}{subsection.4.13}%
+\contentsline {subsubsection}{\numberline {4.13.1}Predictive Object}{22}{subsubsection.4.13.1}%
+\contentsline {subsubsection}{\numberline {4.13.2}Directional-Spread Regression}{22}{subsubsection.4.13.2}%
+\contentsline {subsubsection}{\numberline {4.13.3}Leg-Decomposition Regression}{23}{subsubsection.4.13.3}%
+\contentsline {subsubsection}{\numberline {4.13.4}Sentiment-Only and Factor-Adjusted Comparison}{23}{subsubsection.4.13.4}%
+\contentsline {subsubsection}{\numberline {4.13.5}Non-Overlapping Horizon Regressions}{23}{subsubsection.4.13.5}%
+\contentsline {subsubsection}{\numberline {4.13.6}Sentiment-Innovation Regression}{24}{subsubsection.4.13.6}%
+\contentsline {subsubsection}{\numberline {4.13.7}Auxiliary Regressions}{24}{subsubsection.4.13.7}%
+\contentsline {subsubsection}{\numberline {4.13.8}HAC-Newey-West and Bootstrap t-statistics}{24}{subsubsection.4.13.8}%
+\contentsline {subsection}{\numberline {4.14}Diagnostics and Validation}{25}{subsection.4.14}%
+\contentsline {subsection}{\numberline {4.15}Methodological Limitations and Deliberately Secondary Elements}{26}{subsection.4.15}%
+\contentsline {section}{\numberline {5}Investigation, Analysis and Results}{26}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Sentiment Index and Portfolio Setup}{26}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Baker-Wurgler Style Directional Spreads}{29}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}High- and Low-Sentiment Portfolio Evidence}{29}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Factor-Adjusted Predictive Regressions}{29}{subsubsection.5.2.2}%
+\contentsline {paragraph}{Raw and Orthogonalized Sentiment}{30}{paragraph*.20}%
+\contentsline {subsubsection}{\numberline {5.2.3}Comparison With Baker and Wurgler 2006}{34}{subsubsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.3}Stambaugh-Style Leg Decomposition}{35}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Aggregate Leg Evidence}{35}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Characteristic-Level Leg Evidence}{36}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Comparison With Stambaugh, Yu, and Yuan}{37}{subsubsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.4}Robustness}{37}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Discussion}{39}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Sentiment Measurement and Macro-Financial Contamination}{39}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Expanded Macro Orthogonalization}{40}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Empirical Consequences}{40}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Implications for Identification}{42}{subsection.6.4}%
+\contentsline {section}{\numberline {7}Conclusion}{43}{section.7}%
+\contentsline {section}{\numberline {8}Perspective}{43}{section.8}%
+\contentsline {section}{\numberline {A}Appendix}{44}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Raw Sentiment-Proxy Fundamentals}{44}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.2}Sibley-Expanded Sentiment Robustness by Characteristic and Horizon}{45}{subsection.A.2}%
+\contentsline {subsection}{\numberline {A.3}Covid-Winsorized Sibley Robustness}{47}{subsection.A.3}%
+\contentsline {subsection}{\numberline {A.4}Preliminary Sentiment PCA Eigenvectors}{49}{subsection.A.4}%
+\contentsline {subsection}{\numberline {A.5}Raw Compustat Input-Field Coverage}{50}{subsection.A.5}%
