@@ -1,0 +1,67 @@
+sources:
+  sweden:
+    daily_prices:
+      path: "../../Daily prices jan 2000 - dec 2025 zip limited (preferred).csv"
+      format: csv
+      low_memory: false
+      usecols:
+        - fic
+        - gvkey
+        - datadate
+        - conm
+        - isin
+        - exchg
+        - cshoc
+        - cshtrd
+        - prccd
+        - tpci
+        - iid
+        - monthend
+        - trfd
+    monthly_prices:
+      path: "../../monthly_prices_jan 2005 - dec 2025 (sweden filter.csv"
+      format: csv
+      usecols:
+        - gvkey
+        - datadate
+        - iid
+        - conm
+        - isin
+        - exchg
+        - tpci
+        - cshtrm
+        - ajexm
+        - ajpm
+        - prccm
+    economic_consumer_sentiment:
+      path: "../../Economic and consumer sentiment.xlsx"
+      format: xlsx
+    quarterly_fundamentals:
+      path: "../../quarterly_fundamentals_sweden jan 2000 - dec 2025.csv"
+      format: csv
+    ipo_offers:
+      path: "../../ipo_dates_and_offering_price_sweden.csv"
+      format: csv
+      sep: ";"
+      encoding: utf-8-sig
+    interbank_rate_3m:
+      path: "../../3-month_interbank_rate_sweden.csv"
+      format: csv
+    bond_yield_10y:
+      path: "../../10-year_bond_yield_sweden.csv"
+      format: csv
+    macro_control_cpi:
+      path: "../../Macrocontrols/Consumer Price Index (CPI), total 2020=100. Month 1980M01 - 2026M03.csv"
+      format: csv
+    macro_control_ppi:
+      path: "../../Macrocontrols/Producer Price Index by market and products SPIN 2015, 2020=100. Month 1990M01 - 2026M03.csv"
+      format: csv
+      encoding: latin1
+    macro_control_ip:
+      path: "../../Macrocontrols/Industrial production index. Chain index, 2021=100, by industral classification NACE Rev.2. Monthly 2000M01 - 2026M02.csv"
+      format: csv
+      encoding: latin1
+    macro_control_em:
+      path: "../../Macrocontrols/Population aged 15-74 (LFS) by labour status, type of data, sex and age. Month 2001M01 - 2026M03.csv"
+      format: csv
+      encoding: latin1

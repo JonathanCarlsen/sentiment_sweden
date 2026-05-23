@@ -1,0 +1,44 @@
+identifiers:
+  company_key:
+    fields:
+      - country_code
+      - gvkey
+  security_key:
+    fields:
+      - country_code
+      - gvkey
+      - iid
+
+market_fields:
+  price:
+    canonical: close_price
+    source_candidates:
+      - prccd
+      - prc
+  shares_outstanding:
+    canonical: shares_outstanding
+    source_candidates:
+      - cshoc
+      - shrout
+  total_return_factor:
+    canonical: total_return_factor
+    source_candidates:
+      - trfd
+  isin:
+    canonical: isin
+    source_candidates:
+      - isin
+
+fundamentals_fields:
+  fiscal_period_end:
+    canonical: datadate
+  preliminary_date:
+    canonical: pdateq
+  final_date:
+    canonical: fdateq
+  assets:
+    canonical: at
+  sales:
+    canonical: sale
+  book_equity:
+    derived: seqq/teqq/ceq/at_minus_ltq hierarchy + txditc - pstkq when applicable

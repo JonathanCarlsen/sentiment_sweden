@@ -1,0 +1,163 @@
+\begin{table}[H]
+\centering
+\caption{Preliminary sentiment PCA retained components}
+\label{tab:sentiment_pca_stage1_eigen}
+\begin{tabular}{lrrr}
+\toprule
+Component & Eigenvalue & Variance & Cumulative \\
+\midrule
+Comp1 & 3.349 & 0.255 & 0.255 \\
+Comp2 & 2.447 & 0.186 & 0.441 \\
+Comp3 & 1.783 & 0.136 & 0.577 \\
+Comp4 & 1.399 & 0.106 & 0.683 \\
+Comp5 & 1.293 & 0.098 & 0.782 \\
+Comp6 & 0.533 & 0.041 & 0.822 \\
+Comp7 & 0.492 & 0.037 & 0.860 \\
+\bottomrule
+\end{tabular}
+\tablesource{\repo{outputs/final\_sentiment\_sweden/final\_sentiment\_pca\_stage1\_eigenvalues.csv}.}
+\tablenote{The preliminary PCA uses current and lagged values of the seven sentiment proxies. Components are retained until cumulative explained variance exceeds 85\%.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lead-lag selection for sentiment proxies}
+\label{tab:sentiment_pca_lead_lag}
+\begin{tabular}{lrrr}
+\toprule
+Proxy & Current corr. & Lag corr. & Selected \\
+\midrule
+ESI & 0.003 & 0.105 & ESI\_L1 \\
+CCI & 0.058 & 0.125 & CCI\_L1 \\
+TURN & 0.419 & 0.448 & TURN\_L1 \\
+NIPO & 0.167 & 0.146 & NIPO \\
+RIPO & 0.001 & -0.040 & RIPO \\
+ED\_RATIO & 0.607 & 0.614 & ED\_RATIO\_L1 \\
+DIV\_PREMIUM & 0.894 & 0.892 & DIV\_PREMIUM \\
+\bottomrule
+\end{tabular}
+\tablesource{\repo{outputs/final\_sentiment\_sweden/final\_sentiment\_pca\_lead\_lag\_selection.csv}.}
+\tablenote{The selected proxy is the current or lagged version with the higher correlation with the preliminary PCA index.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Raw selected-proxy PCA retained components}
+\label{tab:sentiment_pca_stage2_eigen}
+\begin{tabular}{lrrr}
+\toprule
+Component & Eigenvalue & Variance & Cumulative \\
+\midrule
+Comp1 & 1.697 & 0.259 & 0.259 \\
+Comp2 & 1.592 & 0.243 & 0.502 \\
+Comp3 & 1.217 & 0.186 & 0.687 \\
+Comp4 & 0.890 & 0.136 & 0.823 \\
+Comp5 & 0.499 & 0.076 & 0.899 \\
+\bottomrule
+\end{tabular}
+\tablesource{\repo{outputs/final\_sentiment\_sweden/final\_sentiment\_pca\_stage2\_eigenvalues.csv}.}
+\tablenote{The raw index is estimated from the selected current or lagged proxies before macro residualization.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Raw selected-proxy PCA score coefficients}
+\label{tab:sentiment_pca_stage2_coeff}
+\begin{tabular}{lr}
+\toprule
+Proxy & Score coef. \\
+\midrule
+ESI\_L1 & 0.262 \\
+CCI\_L1 & 0.203 \\
+TURN\_L1 & 0.121 \\
+NIPO & 0.101 \\
+RIPO & 0.058 \\
+ED\_RATIO\_L1 & 0.122 \\
+DIV\_PREMIUM & 0.179 \\
+\bottomrule
+\end{tabular}
+\tablesource{\repo{outputs/final\_sentiment\_sweden/final\_sentiment\_pca\_stage2\_weighted\_coefficients.csv}.}
+\tablenote{Score coefficients are the summed weighted component coefficients used to construct \var{SENT\_DIV\_PREMIUM_t}.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Raw index correlations with selected proxies}
+\label{tab:sentiment_pca_stage2_corr}
+\begin{tabular}{lr}
+\toprule
+Proxy & Correlation \\
+\midrule
+ESI\_L1 & 0.699 \\
+CCI\_L1 & 0.668 \\
+TURN\_L1 & 0.166 \\
+NIPO & 0.226 \\
+RIPO & 0.093 \\
+ED\_RATIO\_L1 & 0.445 \\
+DIV\_PREMIUM & 0.534 \\
+\bottomrule
+\end{tabular}
+\tablesource{\repo{outputs/final\_sentiment\_sweden/final\_sentiment\_pca\_stage2\_correlations.csv}.}
+\tablenote{The table reports correlations between standardized selected proxies and the raw PCA index.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Macro-residualized PCA retained components}
+\label{tab:sentiment_pca_stage3_eigen}
+\begin{tabular}{lrrr}
+\toprule
+Component & Eigenvalue & Variance & Cumulative \\
+\midrule
+Comp1 & 1.998 & 0.312 & 0.312 \\
+Comp2 & 1.489 & 0.233 & 0.545 \\
+Comp3 & 1.046 & 0.164 & 0.709 \\
+Comp4 & 0.580 & 0.091 & 0.800 \\
+Comp5 & 0.475 & 0.074 & 0.874 \\
+\bottomrule
+\end{tabular}
+\tablesource{\repo{outputs/final\_sentiment\_sweden/final\_sentiment\_pca\_stage3\_eigenvalues.csv}.}
+\tablenote{The final index is estimated from selected proxies after residualizing each proxy against Swedish macro controls.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Macro-residualized PCA score coefficients}
+\label{tab:sentiment_pca_stage3_coeff}
+\begin{tabular}{lr}
+\toprule
+Proxy & Score coef. \\
+\midrule
+rESI\_L1 & 0.115 \\
+rCCI\_L1 & 0.016 \\
+rTURN\_L1 & 0.250 \\
+rNIPO & 0.150 \\
+rRIPO & 0.064 \\
+rED\_RATIO\_L1 & 0.199 \\
+rDIV\_PREMIUM & 0.224 \\
+\bottomrule
+\end{tabular}
+\tablesource{\repo{outputs/final\_sentiment\_sweden/final\_sentiment\_pca\_stage3\_weighted\_coefficients.csv}.}
+\tablenote{Score coefficients are the summed weighted component coefficients used to construct \var{SENT\_ORTH\_DIV\_PREMIUM_t}.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Final index correlations with residualized proxies}
+\label{tab:sentiment_pca_stage3_corr}
+\begin{tabular}{lr}
+\toprule
+Proxy & Correlation \\
+\midrule
+rESI\_L1 & 0.127 \\
+rCCI\_L1 & 0.044 \\
+rTURN\_L1 & 0.756 \\
+rNIPO & 0.221 \\
+rRIPO & 0.138 \\
+rED\_RATIO\_L1 & 0.754 \\
+rDIV\_PREMIUM & 0.773 \\
+\bottomrule
+\end{tabular}
+\tablesource{\repo{outputs/final\_sentiment\_sweden/final\_sentiment\_pca\_stage3\_correlations.csv}.}
+\tablenote{The table reports correlations between standardized residualized proxies and the final macro-orthogonalized PCA index.}
+\end{table}

@@ -1,0 +1,6 @@
+artifact,rows,columns
+fct_market_monthly,169320,46
+mart_characteristics_monthly,169320,541
+fct_factor_monthly,2184,4
+mart_sentiment_proxy_monthly,2236,8
+fct_macro_controls_monthly,555,6

@@ -1,0 +1,20 @@
+\begin{table}[H]
+\centering
+\caption{Descriptive statistics for raw sentiment proxy inputs}
+\label{tab:appendix_raw_sentiment_proxy_descriptives}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Variable & Mean & Std. dev. & Min. & Max. & Median & Obs. \\
+\midrule
+Economic sentiment index (\var{ESI_t}) & 0.0007 & 0.0397 & -0.1412 & 0.4921 & -0.0011 & 299 \\
+Consumer confidence index (\var{CCI_t}) & 0.0008 & 0.0273 & -0.0653 & 0.1290 & -0.0019 & 299 \\
+Turnover (\var{TURN_t}) & -3.1224 & 0.3964 & -4.0663 & -1.9195 & -3.1493 & 299 \\
+IPO number (\var{NIPO_t}) & 1.4181 & 2.6715 & 0.0000 & 21.0000 & 0.0000 & 299 \\
+IPO initial return (\var{RIPO_t}) & 0.1503 & 0.5412 & -0.6511 & 4.6848 & 0.0622 & 130 \\
+Equity-to-debt ratio (\var{ED\_RATIO_t}) & 0.2929 & 0.0791 & 0.2114 & 0.5483 & 0.2558 & 299 \\
+Dividend premium (\var{DIV\_PREMIUM_t}) & -0.3791 & 0.7499 & -2.1240 & 0.8512 & -0.2626 & 289 \\
+\bottomrule
+\end{tabular}
+\tablenote{Statistics are computed from the unstandardized monthly proxy series before PCA and before macro residualization. \var{RIPO_t} is observed only in months with observed IPO initial-return information. \var{NIPO_t} equals zero in months without IPO activity. \var{TURN_t} and \var{DIV\_PREMIUM_t} are logarithmic proxy constructions.}
+\end{table}

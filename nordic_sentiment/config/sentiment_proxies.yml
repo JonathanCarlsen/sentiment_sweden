@@ -1,0 +1,17 @@
+sentiment:
+  monthly_proxy_columns:
+    required:
+      - country_code
+      - month_end_date
+      - proxy_code
+      - raw_value
+    optional:
+      - proxy_family
+      - source_name
+      - include_in_pca_flag
+  pca:
+    n_components: 1
+    standardize: true
+  sign_anchoring:
+    rule: positive_loading_sum
+    preferred_positive_proxies: []

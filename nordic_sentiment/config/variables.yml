@@ -1,0 +1,55 @@
+sweden:
+  daily_prices:
+    required_columns:
+      - gvkey
+      - iid
+      - datadate
+      - prccd
+      - cshoc
+      - trfd
+    optional_columns:
+      - isin
+      - conm
+      - fic
+      - exchg
+      - tpci
+      - monthend
+  monthly_prices:
+    required_columns:
+      - gvkey
+      - iid
+      - datadate
+      - prccd
+    optional_columns:
+      - cshoc
+      - trfd
+      - isin
+  quarterly_fundamentals:
+    required_columns:
+      - gvkey
+      - datadate
+      - sale
+      - at
+      - ceq
+      - seqq
+      - teqq
+      - ltq
+      - pstkq
+    optional_columns:
+      - pdateq
+      - fdateq
+      - txditc
+      - xrd
+      - ib
+      - ni
+      - ppegt
+      - re
+      - dvc
+      - dvp
+      - dvpsx_f
+  rates_monthly:
+    required_columns:
+      - observation_date
+    optional_columns:
+      - IR3TIB01SEM156N
+      - IRLTLT01SEM156N

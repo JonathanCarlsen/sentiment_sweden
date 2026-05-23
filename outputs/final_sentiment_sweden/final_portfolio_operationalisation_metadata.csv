@@ -1,0 +1,13 @@
+sort_variable,sort_column,sort_type,direction,interpretation,mechanical_overlap_warning,mechanical_overlap_note
+ME,ME_lag,continuous,low_minus_high,small_firms,False,
+BE_ME,BE_ME_lag,continuous,mechanical_only,book_to_market_diagnostic,True,SENT_ORTH_DIV_PREMIUM contains dividend-premium information related to dividend status and valuation; interpret this characteristic cautiously.
+risk,risk_lag,continuous,high_minus_low,high_total_volatility,False,
+IVOL_FF3,IVOL_FF3_lag,continuous,high_minus_low,high_ff3_idiosyncratic_volatility,False,
+age,age_lag,continuous,low_minus_high,young_firms,False,
+NON_D_PAYER,NON_D_PAYER_lag,binary,prone_minus_safe,non_dividend_payers,True,SENT_ORTH_DIV_PREMIUM contains dividend-premium information related to dividend status and valuation; interpret this characteristic cautiously.
+UNPROFITABLE,UNPROFITABLE_lag,binary,prone_minus_safe,non_positive_earnings,False,
+E_plus_BE,E_plus_BE_lag,continuous,low_minus_high,low_profitability,False,
+PPE_A,PPE_A_lag,continuous,low_minus_high,low_tangibility,False,
+GS,GS_lag,continuous,high_minus_low,high_sales_growth,False,
+ILLIQ,ILLIQ_lag,continuous,high_minus_low,high_amihud_illiquidity,False,
+XTURN,XTURN_lag,continuous,low_minus_high,low_share_turnover,False,

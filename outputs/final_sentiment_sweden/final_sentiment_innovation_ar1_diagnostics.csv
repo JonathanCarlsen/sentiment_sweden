@@ -1,0 +1,2 @@
+sentiment_index_label,model,intercept,rho,r2,n_obs,innovation_mean,innovation_std,innovation_min,innovation_max,lagged_innovation_count
+SENT_ORTH_DIV_PREMIUM,SENT_t_on_intercept_and_SENT_lag,-0.0049419931994208535,0.7937557161026981,0.6344749241971601,288,4.471731626962436e-17,0.336583287397567,-1.671420255101936,2.1927253269189593,287

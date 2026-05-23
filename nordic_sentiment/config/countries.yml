@@ -1,0 +1,8 @@
+countries:
+  sweden:
+    country_code: SWE
+    iso2: SE
+    iso3: SWE
+    currency: SEK
+    market_label: Sweden
+    enabled: true

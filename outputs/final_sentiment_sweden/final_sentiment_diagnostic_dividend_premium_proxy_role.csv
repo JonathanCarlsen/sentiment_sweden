@@ -1,0 +1,2 @@
+proxy_code,role,primary_construction
+DIV_PREMIUM,Baker-Wurgler dividend payer premium added as a seventh sentiment proxy,log(value-weighted average market-to-book of regular dividend payers) minus log(value-weighted average market-to-book of non-payers)
