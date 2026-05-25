@@ -1,35 +1,24 @@
-# macOS / editor
-.DS_Store
-.vscode/
-*.swp
+AGENTS.md
+AGENTS/
+APPENDIX_README.md
+DIARY.md
+WRITING_STYLE.md
+archive/
+Relevant_theory_research/
+Compustat_fundamentals_explanation.html
+Compustat_fundamentals_explanation_files/
+bachelor_thesis.pdf
 
-# Python
-__pycache__/
-*.pyc
-.ipynb_checkpoints/
+nordic_sentiment/src/
+nordic_sentiment/tests/
+nordic_sentiment/docs/
+nordic_sentiment/notebooks/01_sweden/SENTIMENT_OUTLIER_EXPERIMENT_SWEDEN.ipynb
+nordic_sentiment/notebooks/01_sweden/SENT_ANALYSIS.ipynb
+nordic_sentiment/notebooks/01_sweden/sentiment_sweden.ipynb
 
-# LaTeX build files
-*.aux
-*.bbl
-*.blg
-*.log
-*.out
-*.toc
-*.synctex.gz
-*.fls
-*.fdb_latexmk
-texput.log
-
-# Local thesis compile-check files
-deliverables/*compile_check*
-deliverables/*revert_check*
-
-# Large/local raw data, if you do not want to publish them
-Daily prices jan 2000 - dec 2025 zip limited (preferred).csv
-monthly_prices_jan 2005 - dec 2025 (sweden filter.csv
-quarterly_fundamentals_sweden jan 2000 - dec 2025.csv
-Economic and consumer sentiment.xlsx
-3-month_interbank_rate_sweden.csv
-10-year_bond_yield_sweden.csv
-ipo_dates_and_offering_price_sweden.csv
-Macrocontrols/
+outputs/alternative_sentiment_index_robustness/
+outputs/eda_sweden_equity_market/
+outputs/extreme_decile_constituent_inspection/
+outputs/fallback_usage_inspection/
+outputs/fundamental_accounting_coverage/
+outputs/sentiment_outlier_experiment_sweden/
