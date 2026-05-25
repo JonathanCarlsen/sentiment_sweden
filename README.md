@@ -4,6 +4,7 @@ This repository contains the empirical code, source data pointers, final outputs
 
 The project asks whether beginning-of-period investor sentiment predicts relative future returns across Swedish firm-characteristic portfolios, and whether the relation is strongest among firms that are harder to value or harder to arbitrage. The empirical pipeline constructs a Swedish sentiment index, builds firm-characteristic portfolios, estimates predictive regressions, and produces thesis tables and figures.
 
+(This .README was created with AI)
 ## What Is in This Repository
 
 The repository is intentionally centered on the final Sweden analysis rather than the full exploratory project history.
