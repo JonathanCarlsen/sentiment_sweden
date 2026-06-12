@@ -1,6 +1,8 @@
 # Final Sentiment Sweden Outputs
 
-This folder is reserved for the thesis-facing outputs produced by:
+This README was written with AI
+
+This folder is for the thesis-facing outputs produced by:
 
 `nordic_sentiment/notebooks/01_sweden/FINAL_SENTIMENT_SWEDEN.ipynb`
 
