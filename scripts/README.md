@@ -1,6 +1,8 @@
 # Scripts
 
-No standalone scripts are required for the appendix-facing production pipeline.
+This README was written with AI
+
+These scripts are not necessary to reproduce the results of the thesis
 
 Historical inspection and comparison scripts have been moved to
 `archive/scripts/`. The final thesis outputs are produced through
