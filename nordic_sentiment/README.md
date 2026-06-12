@@ -1,6 +1,6 @@
 # Nordic Sentiment: Sweden Pipeline Guide
 
-The appendix-facing production path is intentionally compact:
+This README was created with AI
 
 - `notebooks/01_sweden/FINAL_SENTIMENT_SWEDEN.ipynb` reproduces the final empirical results.
 - `notebooks/01_sweden/00b_describe_sweden_equity_market.ipynb` produces the retained descriptive market-composition outputs.
